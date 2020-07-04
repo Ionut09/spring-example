@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -25,7 +26,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class SingerEntity {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)//folositi identity pt auto_increment
     private Long id;
 
     private String firstName;
@@ -34,7 +35,7 @@ public class SingerEntity {
 
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "singer")
+    @OneToMany(mappedBy = "singer", fetch = FetchType.LAZY)
     private List<AlbumEntity> albums;
 
 }

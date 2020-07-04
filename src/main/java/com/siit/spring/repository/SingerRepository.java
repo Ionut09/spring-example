@@ -14,5 +14,6 @@ public interface SingerRepository extends JpaRepository<SingerEntity, Long> {
     @Query("select s from SingerEntity s " +
             "left join fetch s.albums " +
             "order by s.firstName")
+    //pt a evita n+1 query problem
     List<SingerEntity> getAll();
 }

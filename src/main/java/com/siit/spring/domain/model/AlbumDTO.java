@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Album {
+public class AlbumDTO {
 
     private long id;
 
@@ -15,5 +15,5 @@ public class Album {
 
     private LocalDate releaseDate;
 
-    private Singer singer;
+    private SingerDTO singer;
 }

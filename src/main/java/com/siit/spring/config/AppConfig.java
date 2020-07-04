@@ -1,4 +1,4 @@
-package com;
+package com.siit.spring.config;
 
 import com.tutorialspoint.HelloWorld;
 
@@ -17,4 +17,5 @@ public class AppConfig {
     public HelloWorld helloWorld() {
         return new HelloWorld();
     }
+
 }

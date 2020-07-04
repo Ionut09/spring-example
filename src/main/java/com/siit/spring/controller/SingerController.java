@@ -1,7 +1,8 @@
 package com.siit.spring.controller;
 
 import com.ApplicationProperties;
-import com.siit.spring.domain.model.Singer;
+import com.siit.spring.domain.model.SingerDTO;
+import com.siit.spring.domain.model.SingerFilter;
 import com.siit.spring.exception.SingerNotFoundException;
 import com.siit.spring.service.SingerService;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,21 +41,29 @@ public class SingerController {
 
     @GetMapping("/{id}") //    /singers/10
     @ResponseStatus(HttpStatus.OK)
-    public Singer getOneSinger(@PathVariable("id") long id) {
+    public SingerDTO getOneSinger(@PathVariable("id") long id) {
         return service.findById(id);
     }
 
     @GetMapping //    /singers
     @ResponseStatus(HttpStatus.OK)
-    public List<Singer> getAllSingerrs() {
+    public List<SingerDTO> getAllSingerrs() {
         System.out.println("The number of students: " + properties.getNumberOfStudents());
         System.out.println("The names of students: " + studentNames);
         return service.getAll();
     }
 
+    @GetMapping("/filter")//("?name={name}&birthDate={birthDate}") //    /singers
+    public List<SingerDTO> getAllSingerrsByName(SingerFilter filter) {
+        System.out.println("filter = " + filter);
+        return service.getAll()
+                      .stream().filter(singerDTO -> singerDTO.getFirstName().equals(filter.getName()))
+                      .collect(Collectors.toList());
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Singer create(@RequestBody Singer singer) {
+    public SingerDTO create(@RequestBody SingerDTO singer) {
         return service.create(singer);
     }
     //{id:12,
@@ -61,7 +71,7 @@ public class SingerController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable("id") long id, @RequestBody Singer singer) {
+    public void update(@PathVariable("id") long id, @RequestBody SingerDTO singer) {
         singer.setId(id);
         service.updateTransactional(singer);
     }
